@@ -14,7 +14,7 @@ class Fetcher extends Request {
     this.json = path.join(process.cwd(), '_issues.json')
     this.page = 1
     this.issues = []
-    this.callback = null
+    this.callback = () => {}
   }
 
   set status(fn) {
@@ -23,7 +23,7 @@ class Fetcher extends Request {
 
   getJson() {
     try {
-      return JSON.parse(fs.readFileSync(this.json,'utf8'))
+      return JSON.parse(fs.readFileSync(this.json, 'utf8'))
     } catch (e) {
       return false
     }
@@ -32,7 +32,7 @@ class Fetcher extends Request {
   setJson() {
     if (this.config.cache) {
       try {
-        fs.writeFileSync(this.json, JSON.stringify(this.issues))
+        fs.writeFileSync(this.json, JSON.stringify(this.issues), 'utf8')
       } catch (e) {
         // ignore
       }
@@ -52,24 +52,24 @@ class Fetcher extends Request {
     this.callback(`${msg} ... ${page}`)
 
     return this.get(page)
-    .then(({ data, headers }) => {
-      this.issues = this.issues.concat(data)
+      .then(({ data, headers }) => {
+        this.issues = this.issues.concat(data)
 
-      if (!ifNext(headers)) {
-        this.setJson()
-        resolve(this.issues)
-      } else {
-        this.page += 1
-        setTimeout(() => { this.load(resolve, reject) }, 1000)
-      }
-    })
-    .catch(err => reject(new Error(err)))
+        if (!ifNext(headers)) {
+          this.setJson()
+          resolve(this.issues)
+        } else {
+          this.page += 1
+          setTimeout(() => { this.load(resolve, reject) }, 1000)
+        }
+      })
+      .catch(err => reject(new Error(err)))
   }
 
   fetch() {
     const json = this.getJson()
 
-    if (this.cache && json) {
+    if (this.config.cache && json) {
       this.callback('Data from cache...')
       return Promise.resolve(json)
     }

@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 class Request {
-  constructor(config, per_page) {
+  constructor(config) {
     const {
       user,
       repository,
