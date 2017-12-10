@@ -1,5 +1,5 @@
 const assert = require('power-assert')
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const Fetcher = require('../')
 
@@ -9,10 +9,11 @@ const defaults = {
   per: 5,
   order: 'created',
   cache: false,
+  base: __dirname,
   token: '5#c21bffc137f44faf7e9c4a84da827f7cc2cfeaa'
 }
 
-const json = path.join(process.cwd(), '_issues.json')
+const json = path.join(__dirname, '_issues.json')
 
 function rejects(promise) {
   return promise
@@ -24,13 +25,13 @@ function getConfig() {
   return JSON.parse(JSON.stringify(defaults))
 }
 
-describe('processor', () => {
+describe('fetcher', () => {
   it('token error', async function() {
     this.timeout(10000)
 
     const config = getConfig()
     config.token = 'xxx'
-    const fetcher = new Fetcher(config)
+    const fetcher = new Fetcher({ config, fs })
 
     assert((await rejects(fetcher.fetch())).message.indexOf('401') > -1)
   })
@@ -39,7 +40,7 @@ describe('processor', () => {
     this.timeout(10000)
 
     const config = getConfig()
-    const fetcher = new Fetcher(config)
+    const fetcher = new Fetcher({ config, fs })
     const messages = []
 
     fetcher.status = (s) => {
@@ -57,7 +58,7 @@ describe('processor', () => {
 
     const config = getConfig()
     config.token = ''
-    const fetcher = new Fetcher(config)
+    const fetcher = new Fetcher({ config, fs })
 
     try {
       const result = await fetcher.fetch()
@@ -72,7 +73,7 @@ describe('processor', () => {
 
     const config = getConfig()
     config.cache = true
-    const fetcher = new Fetcher(config)
+    const fetcher = new Fetcher({ config, fs })
     let result = await fetcher.fetch()
 
     assert(fs.existsSync(json) === true)
