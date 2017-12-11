@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 const Request = require('./request')
 
 function ifNext(headers) {
@@ -7,9 +8,8 @@ function ifNext(headers) {
 }
 
 class Fetcher extends Request {
-  constructor({ config, fs }) {
+  constructor(config) {
     super(config)
-    this.fs = fs
     this.config = config
     this.json = path.join(config.base, '_issues.json')
     this.page = 1
@@ -23,7 +23,7 @@ class Fetcher extends Request {
 
   getJson() {
     try {
-      return JSON.parse(this.fs.readFileSync(this.json, 'utf8'))
+      return JSON.parse(fs.readFileSync(this.json, 'utf8'))
     } catch (e) {
       return false
     }
@@ -31,7 +31,7 @@ class Fetcher extends Request {
 
   setJson() {
     if (this.config.cache) {
-      this.fs.outputFileSync(this.json, JSON.stringify(this.issues), 'utf8')
+      fs.writeFileSync(this.json, JSON.stringify(this.issues), 'utf8')
     }
   }
 
@@ -63,11 +63,13 @@ class Fetcher extends Request {
   }
 
   fetch() {
-    const json = this.getJson()
+    if (this.config.cache) {
+      const json = this.getJson()
 
-    if (this.config.cache && json) {
-      this.callback('Data from cache...')
-      return Promise.resolve(json)
+      if (json) {
+        this.callback('Data from cache...')
+        return Promise.resolve(json)
+      }
     }
 
     return new Promise((resolve, reject) => this.load(resolve, reject))

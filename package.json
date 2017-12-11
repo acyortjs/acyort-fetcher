@@ -1,6 +1,6 @@
 {
   "name": "acyort-fetcher",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Fetcher for AcyOrt",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,6 @@
     "eslint": "^4.11.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "fs-extra": "^4.0.3",
     "intelli-espower-loader": "^1.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^4.0.1",

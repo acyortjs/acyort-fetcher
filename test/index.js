@@ -1,5 +1,5 @@
 const assert = require('power-assert')
-const fs = require('fs-extra')
+const fs = require('fs')
 const path = require('path')
 const Fetcher = require('../')
 
@@ -31,7 +31,7 @@ describe('fetcher', () => {
 
     const config = getConfig()
     config.token = 'xxx'
-    const fetcher = new Fetcher({ config, fs })
+    const fetcher = new Fetcher(config)
 
     assert((await rejects(fetcher.fetch())).message.indexOf('401') > -1)
   })
@@ -40,7 +40,7 @@ describe('fetcher', () => {
     this.timeout(10000)
 
     const config = getConfig()
-    const fetcher = new Fetcher({ config, fs })
+    const fetcher = new Fetcher(config)
     const messages = []
 
     fetcher.status = (s) => {
@@ -58,7 +58,7 @@ describe('fetcher', () => {
 
     const config = getConfig()
     config.token = ''
-    const fetcher = new Fetcher({ config, fs })
+    const fetcher = new Fetcher(config)
 
     try {
       const result = await fetcher.fetch()
@@ -73,7 +73,7 @@ describe('fetcher', () => {
 
     const config = getConfig()
     config.cache = true
-    const fetcher = new Fetcher({ config, fs })
+    const fetcher = new Fetcher(config)
     let result = await fetcher.fetch()
 
     assert(fs.existsSync(json) === true)

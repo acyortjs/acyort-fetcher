@@ -14,8 +14,6 @@ $ npm i acyort-fetcher -S
 ## Usage
 
 ```js
-// npm i fs-extra -S
-const fs = require('fs')
 const Fetcher = require('acyort-fetcher')
 
 const config = {
@@ -27,7 +25,7 @@ const config = {
   base: process.cwd(),    // current path
   token: 'xxxx'           // github access token
 }
-const fetcher = new Fetcher({ config, fs })
+const fetcher = new Fetcher(config)
 
 fetcher.status = status => {
   console.log(status)     // requests information
