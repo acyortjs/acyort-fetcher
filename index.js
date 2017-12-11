@@ -31,11 +31,7 @@ class Fetcher extends Request {
 
   setJson() {
     if (this.config.cache) {
-      try {
-        this.fs.outputFileSync(this.json, JSON.stringify(this.issues), 'utf8')
-      } catch (e) {
-        // ignore
-      }
+      this.fs.outputFileSync(this.json, JSON.stringify(this.issues), 'utf8')
     }
   }
 
