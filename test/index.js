@@ -6,7 +6,7 @@ const Fetcher = require('../')
 const defaults = {
   user: 'LoeiFy',
   repository: 'Recordum',
-  per: 5,
+  perpage: 5,
   order: 'created',
   cache: false,
   base: __dirname,
@@ -50,7 +50,7 @@ describe('fetcher', () => {
     const result = await fetcher.fetch()
 
     assert(Array.isArray(result) === true)
-    assert(messages.length === Math.ceil(result.length / config.per))
+    assert(messages.length === Math.ceil(result.length / config.perpage))
   })
 
   it('no token', async function() {

@@ -7,19 +7,19 @@ class Request {
       repository,
       token,
       order,
-      per,
+      perpage,
     } = config
 
     this.host = 'https://api.github.com'
     this.path = `/repos/${user}/${repository}/issues`
     this.token = token ? token.split('#').join('') : ''
-    this.per = per
+    this.perpage = perpage
     this.order = order
+    this.userAgent = 'AcyOrt'
   }
 
   getConfig(page) {
-    const headers = { 'User-Agent': 'AcyOrt' }
-
+    const headers = {}
     if (this.token) {
       headers.Authorization = `token ${this.token}`
     }
@@ -27,18 +27,24 @@ class Request {
     return {
       url: this.path,
       method: 'get',
-      baseURL: this.host,
       headers,
+      baseURL: this.host,
       params: {
-        per_page: this.per,
+        per_page: this.perpage,
         page,
         sort: this.order,
       },
     }
   }
 
+  axios(args) {
+    const { headers = {} } = args
+    headers['User-Agent'] = this.userAgent
+    return axios(Object.assign(args, { headers }))
+  }
+
   get(page) {
-    return axios(this.getConfig(page))
+    return this.axios(this.getConfig(page))
   }
 }
 
