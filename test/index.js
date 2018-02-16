@@ -10,7 +10,7 @@ const defaults = {
   order: 'created',
   cache: false,
   base: __dirname,
-  token: '5#c21bffc137f44faf7e9c4a84da827f7cc2cfeaa'
+  token: 'e#ef41a2f6af820b93a625bf29b8465e4d208c3f0'
 }
 
 const json = path.join(__dirname, '_issues.json')

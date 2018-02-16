@@ -15,11 +15,12 @@ class Request {
     this.token = token ? token.split('#').join('') : ''
     this.perpage = perpage
     this.order = order
-    this.userAgent = 'AcyOrt'
+    this.axios = axios
   }
 
   getConfig(page) {
-    const headers = {}
+    const headers = { 'User-Agent': 'AcyOrt' }
+
     if (this.token) {
       headers.Authorization = `token ${this.token}`
     }
@@ -35,12 +36,6 @@ class Request {
         sort: this.order,
       },
     }
-  }
-
-  axios(args) {
-    const { headers = {} } = args
-    headers['User-Agent'] = this.userAgent
-    return axios(Object.assign(args, { headers }))
   }
 
   get(page) {
