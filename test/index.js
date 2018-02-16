@@ -6,9 +6,9 @@ const Fetcher = require('../')
 const defaults = {
   user: 'LoeiFy',
   repository: 'Recordum',
-  perpage: 5,
   order: 'created',
   cache: false,
+  perpage: 5,
   base: __dirname,
   token: 'e#ef41a2f6af820b93a625bf29b8465e4d208c3f0'
 }
@@ -58,6 +58,8 @@ describe('fetcher', () => {
 
     const config = getConfig()
     config.token = ''
+    delete config.perpage
+
     const fetcher = new Fetcher(config)
 
     try {

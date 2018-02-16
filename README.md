@@ -19,7 +19,6 @@ const Fetcher = require('acyort-fetcher')
 const config = {
   user: 'LoeiFy',         // github username
   repository: 'Recordum', // github repository
-  perpage: 5,                 // per_page
   order: 'created',       // 'created' or 'updated'
   cache: false,           // if cache json data. create a json file in current path
   base: process.cwd(),    // current path

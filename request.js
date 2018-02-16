@@ -13,8 +13,8 @@ class Request {
     this.host = 'https://api.github.com'
     this.path = `/repos/${user}/${repository}/issues`
     this.token = token ? token.split('#').join('') : ''
-    this.perpage = perpage
     this.order = order
+    this.perpage = perpage || 20
     this.axios = axios
   }
 
