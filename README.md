@@ -19,13 +19,16 @@ const Fetcher = require('acyort-fetcher')
 const config = {
   user: 'LoeiFy',         // github username
   repository: 'Recordum', // github repository
-  per: 5,                 // per_page
+  perpage: 5,                 // per_page
   order: 'created',       // 'created' or 'updated'
   cache: false,           // if cache json data. create a json file in current path
   base: process.cwd(),    // current path
   token: 'xxxx'           // github access token
 }
 const fetcher = new Fetcher(config)
+const { axios } = fetcher
+
+axios(...config)          // axios mudule
 
 fetcher.status = status => {
   console.log(status)     // requests information
