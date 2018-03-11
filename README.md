@@ -25,13 +25,16 @@ const config = {
   token: 'xxxx'           // github access token
 }
 const fetcher = new Fetcher(config)
-const { axios } = fetcher
+const { axios, getGithub } = fetcher
 
-axios(...config)          // axios mudule
+axios(...config)          // axios
+getGithub(...config)      // axios width github headers, github token
 
 fetcher.status = status => {
   console.log(status)     // requests information
 }
+
+fetcher.getHtml = true    // return HTML rendered from the body's markdown
 
 fetcher.fetch()
   .then(res => console.log(res))    // the json data
