@@ -19,21 +19,26 @@ class Request {
     this.axios = axios
   }
 
-  getConfig(page) {
+  getGithub(params) {
     const headers = { 'User-Agent': 'AcyOrt' }
+    const config = params
 
     if (this.token) {
       headers.Authorization = `token ${this.token}`
     }
 
-    if (this.getHtml) {
-      headers.Accept = 'application/vnd.github.v3.full'
+    if (config.headers) {
+      config.headers = Object.assign(headers, config.headers)
+    } else {
+      config.headers = headers
     }
 
-    return {
+    return this.axios(config)
+  }
+
+  getConfig(page) {
+    const config = {
       url: this.path,
-      method: 'get',
-      headers,
       baseURL: this.host,
       params: {
         per_page: this.perpage,
@@ -41,10 +46,16 @@ class Request {
         sort: this.order,
       },
     }
+
+    if (this.getHtml) {
+      config.headers = { Accept: 'application/vnd.github.v3.full' }
+    }
+
+    return config
   }
 
   get(page) {
-    return this.axios(this.getConfig(page))
+    return this.getGithub(this.getConfig(page))
   }
 }
 
