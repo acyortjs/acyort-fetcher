@@ -15,6 +15,7 @@ class Request {
     this.token = token ? token.split('#').join('') : ''
     this.order = order
     this.perpage = perpage || 20
+    this.getHtml = false
     this.axios = axios
   }
 
@@ -23,6 +24,10 @@ class Request {
 
     if (this.token) {
       headers.Authorization = `token ${this.token}`
+    }
+
+    if (this.getHtml) {
+      headers.Accept = 'application/vnd.github.v3.full'
     }
 
     return {

@@ -26,6 +26,21 @@ function getConfig() {
 }
 
 describe('fetcher', () => {
+  it('body html', async function() {
+    this.timeout(10000)
+
+    const config = getConfig()
+    config.perpage = 20
+    const fetcher = new Fetcher(config)
+    fetcher.getHtml = true
+
+    const result = await fetcher.fetch()
+
+    assert(Object.keys(result[0]).indexOf('body_html') > -1)
+    assert(Object.keys(result[0]).indexOf('body') > -1)
+    assert(Object.keys(result[0]).indexOf('body_text') > -1)
+  })
+
   it('token error', async function() {
     this.timeout(10000)
 
@@ -77,6 +92,8 @@ describe('fetcher', () => {
     config.cache = true
     const fetcher = new Fetcher(config)
     let result = await fetcher.fetch()
+
+    assert(Object.keys(result[0]).indexOf('body_html') === -1)
 
     assert(fs.existsSync(json) === true)
 
