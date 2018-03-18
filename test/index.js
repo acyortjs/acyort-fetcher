@@ -52,6 +52,22 @@ describe('fetcher', () => {
     assert((await rejects(fetcher.fetch())).message.indexOf('401') > -1)
   })
 
+  it('not user or repository config', async function() {
+    this.timeout(10000)
+
+    let config = getConfig()
+    delete config.user
+    let fetcher = new Fetcher(config)
+
+    assert((await rejects(fetcher.fetch())).message === 'Empty user or repository fields')
+
+    config = getConfig()
+    delete config.repository
+    fetcher = new Fetcher(config)
+
+    assert((await rejects(fetcher.fetch())).message === 'Empty user or repository fields')
+  })
+
   it('json', async function() {
     this.timeout(10000)
 

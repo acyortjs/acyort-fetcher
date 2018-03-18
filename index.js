@@ -45,6 +45,10 @@ class Fetcher extends Request {
     } = this
     const msg = `Getting data from GitHub (${user}/${repository})`
 
+    if (!user || !repository) {
+      return reject(new Error('Empty user or repository fields'))
+    }
+
     this.callback(`${msg} ... ${page}`)
 
     return this.get(page)
