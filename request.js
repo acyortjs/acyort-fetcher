@@ -8,7 +8,6 @@ class Request {
       token,
       order,
       perpage,
-      headers = {},
     } = config
 
     this.host = 'https://api.github.com'
@@ -17,6 +16,10 @@ class Request {
     this.order = order
     this.perpage = perpage || 20
     this.axios = axios
+    this.headers = {}
+  }
+
+  setHeaders(headers) {
     this.headers = headers
   }
 

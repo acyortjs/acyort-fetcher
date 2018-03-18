@@ -31,8 +31,9 @@ describe('fetcher', () => {
 
     const config = getConfig()
     config.perpage = 20
-    config.headers = { Accept: 'application/vnd.github.v3.full' }
     const fetcher = new Fetcher(config)
+
+    fetcher.setHeaders({ Accept: 'application/vnd.github.v3.full' })
 
     const result = await fetcher.fetch()
 

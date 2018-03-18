@@ -35,9 +35,7 @@ fetcher.status = status => {
 }
 
 // add custom headers
-config.headers = {
-  Accept: 'application/vnd.github.v3.full'
-}
+fetcher.setHeaders({ Accept: 'application/vnd.github.v3.full' })
 
 fetcher.fetch()
   .then(res => console.log(res))    // the json data
