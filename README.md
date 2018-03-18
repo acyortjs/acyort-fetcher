@@ -34,7 +34,10 @@ fetcher.status = status => {
   console.log(status)     // requests information
 }
 
-fetcher.getHtml = true    // return HTML rendered from the body's markdown
+// add custom headers
+config.headers = {
+  Accept: 'application/vnd.github.v3.full'
+}
 
 fetcher.fetch()
   .then(res => console.log(res))    // the json data

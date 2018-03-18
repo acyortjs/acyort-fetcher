@@ -8,6 +8,7 @@ class Request {
       token,
       order,
       perpage,
+      headers = {},
     } = config
 
     this.host = 'https://api.github.com'
@@ -15,8 +16,8 @@ class Request {
     this.token = token ? token.split('#').join('') : ''
     this.order = order
     this.perpage = perpage || 20
-    this.getHtml = false
     this.axios = axios
+    this.headers = headers
   }
 
   getGithub(params) {
@@ -27,17 +28,13 @@ class Request {
       headers.Authorization = `token ${this.token}`
     }
 
-    if (config.headers) {
-      config.headers = Object.assign(headers, config.headers)
-    } else {
-      config.headers = headers
-    }
+    config.headers = Object.assign(headers, params.headers || {}, this.headers)
 
     return this.axios(config)
   }
 
   getConfig(page) {
-    const config = {
+    return {
       url: this.path,
       baseURL: this.host,
       params: {
@@ -46,12 +43,6 @@ class Request {
         sort: this.order,
       },
     }
-
-    if (this.getHtml) {
-      config.headers = { Accept: 'application/vnd.github.v3.full' }
-    }
-
-    return config
   }
 
   get(page) {
